@@ -1,0 +1,21 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:  
+  client:    
+    image: telegram-bot-manager-client:dev
+    build: 
+      dockerfile: ./Dockerfile
+      context: ./client
+
+  server:    
+    image: telegram-bot-manager-server:dev
+    build: 
+      dockerfile: ./Dockerfile
+      context: ./server
+
+  bot-runner:    
+    image: telegram-bot-manager-bot-runner:dev
+    build: 
+      dockerfile: ./Dockerfile
+      context: ./bot-runner

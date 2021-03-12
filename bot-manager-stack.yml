@@ -1,0 +1,48 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  client:
+    container_name: telegram-bot-client
+    image: telegram-bot-manager-client:dev
+    restart: always
+    ports:
+      - 3000:3000
+
+  server:
+    container_name: telegram-bot-server
+    image: telegram-bot-manager-server:dev
+    restart: always
+    environment:
+      BOTRUNNER_IMAGE: telegram-bot-manager-bot-runner:dev
+    volumes:
+      - djangoproject:/usr/src/app/
+      - /var/run/:/var/run/
+    ports:
+      - 8000:8000
+
+  db:
+    container_name: telegram-bot-db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  postgres:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '.postgres'
+  djangoproject:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: 'server'
