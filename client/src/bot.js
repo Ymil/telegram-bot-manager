@@ -72,7 +72,7 @@ class Handler_box extends React.Component{
         
         if(index == 0){
             let handler_new = this.state.handler_new;
-            this.state.handler_new.form = !this.state.show_form;
+            handler_new.form = !handler_new.form;
             this.setState({
                 handler_new: handler_new
             });
