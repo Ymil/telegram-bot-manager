@@ -1,0 +1,6 @@
+Django
+psycopg2
+python-telegram-bot
+requests
+jinja2
+
