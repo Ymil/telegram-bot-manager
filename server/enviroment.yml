@@ -43,7 +43,6 @@ dependencies:
     - identify==2.1.*
     - idna==2.*
     - isort==5.7.*
-    - jinja2==2.11.*
     - jsonfield2==4.0.*
     - lazy-object-proxy==1.5.*
     - markupsafe==1.1.*
@@ -52,8 +51,7 @@ dependencies:
     - pre-commit==2.11.*
     - pylint==2.7.*
     - pylint-django==2.4.*
-    - pylint-plugin-utils==0.*
-    - python-telegram-bot==13.*
+    - pylint-plugin-utils==0.*    
     - pyyaml==5.4.*
     - requests==2.25.*
     - six==1.15.*
