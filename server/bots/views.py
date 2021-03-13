@@ -30,7 +30,7 @@ def bot_run(request, bot_id):
         client.containers.run(
             detach=True,
             image=os.environ["BOTRUNNER_IMAGE"],
-            network='telegram-bot-manager_default',
+            network='telegram-bot-manager-network',
             name=f'telegram-bot-manager-runner-{bot_id}',
             volumes={
                 'telegram_bot_manager_djangoproject': {

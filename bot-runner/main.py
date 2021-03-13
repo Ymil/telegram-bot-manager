@@ -96,19 +96,19 @@ def commandsHandler(update, context):
             elif handler.payload['type'] == "http":
                 end_Point = HTTPApi_EndPoint(bot_model, **handler.payload, args=args)                
             else:
-                raise ValueError(f"Unsupported end point type: {handler.payload['type']}")
+                raise ValueError(f"Unsupported endpoint type: {handler.payload['type']}")
             
             if end_Point.execute():
                 msg = end_Point.get_response()
                 msg = messageProcessor(msg, vars(user_data))
             else:
-                logging.error("Error procesando end point")
+                logging.error("Failed to process endpoint")
                 raise
 
         else:
-            msg = "Tu usuario no esta habilitado, comunicate con un administrador"
+            msg = "Your user is not enabled"
     except Handler.DoesNotExist:
-        msg = "Comando desconocido"
+        msg = "Unknown command"
     logging.debug(msg)
     context.bot.sendMessage(chat_id=chat_id, text=msg)
 

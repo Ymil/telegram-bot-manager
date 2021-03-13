@@ -9,6 +9,8 @@ services:
     restart: always
     ports:
       - 3000:3000
+    networks:
+      - net
 
   server:
     container_name: telegram-bot-server
@@ -21,6 +23,8 @@ services:
       - /var/run/:/var/run/
     ports:
       - 8000:8000
+    networks:
+      - net
 
   db:
     container_name: telegram-bot-db
@@ -32,7 +36,13 @@ services:
       - postgres:/var/lib/postgresql/data
     ports:
       - 5432:5432
+    networks:
+      - net
 
+networks:
+  net:
+    name: telegram-bot-manager-network
+    
 volumes:
   postgres:
     driver: local
