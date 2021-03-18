@@ -1,6 +1,6 @@
 import React from "react";
-import {Form, Modal, Button} from 'react-bootstrap';
-
+import {Form, Modal, Button, Alert} from 'react-bootstrap';
+import { url_end_point } from '../configs.js'
 function Payload_Render(props){
   if(props.payload.type == "message"){
     return (
@@ -51,7 +51,8 @@ export class Handler_form extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-          handler: props.handler
+          handler: props.handler,
+          error: ""
         };
         this.handler = props.handler;
     }
@@ -82,8 +83,6 @@ export class Handler_form extends React.Component{
 
     
     save = (event) => {
-      
-      
       let target = event.target;
       let response = {        
         name: target.name.value,
@@ -101,7 +100,7 @@ export class Handler_form extends React.Component{
       }
       event.preventDefault();
       let method = "POST";
-      let URL = "http://localhost:8000/api/handlers/"
+      let URL = url_end_point+"/handlers/"
       response.bot = this.props.bot;
       if(this.state.handler.pk != 0){
         method = "PUT";
@@ -113,8 +112,21 @@ export class Handler_form extends React.Component{
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(() =>  this.props.onHide(this.props.index))
-        .then(() =>  this.props.updateView());
+        })
+        .then(response => {
+          response.json().then(json => {
+              if(response.status < 300){
+                this.props.onHide(this.props.index);
+                this.props.updateView()
+                
+              }else{
+                this.setState({
+                    error: json.description
+                } );
+                
+              }
+          })
+      });
 
         
     }
@@ -142,10 +154,13 @@ export class Handler_form extends React.Component{
                   </Form.Group>
                   <Payload_Render payload={handler.payload} change={this.change} />                
               </Modal.Body>
+              <Modal.Body>
+                { this.state.error.length > 0 ? <Alert variant="danger">{this.state.error}</Alert> : null }
+              </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={() => this.props.onHide(this.props.index)}>Close</Button>
                 <Button variant="primary" type="submit">Save changes</Button>
-              </Modal.Footer>
+              </Modal.Footer>              
             </Form>
           </Modal>
         )
