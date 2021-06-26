@@ -1,8 +1,11 @@
+import os
+
 from bots.models import Bot
 from bots.serializers import BotSerializer
 from django.http import JsonResponse
 from rest_framework import viewsets
-import os
+
+cotainer_botRunner = 'telegram-bot-runner-%d'
 
 
 class BotViewSet(viewsets.ModelViewSet):
@@ -17,9 +20,9 @@ def bot_run(request, bot_id):
     import docker
 
     client = docker.from_env()
-
+    container_name = cotainer_botRunner % bot_id
     try:
-        bot_runner = client.containers.get(f'telegram-bot-manager-runner-{bot_id}')
+        bot_runner = client.containers.get(container_name)
         bot_runner.remove()
     except docker.errors.ContainerError:
         pass
@@ -29,11 +32,11 @@ def bot_run(request, bot_id):
     try:
         client.containers.run(
             detach=True,
-            image=os.environ["BOTRUNNER_IMAGE"],
+            image=os.environ['BOTRUNNER_IMAGE'],
             network='telegram-bot-manager-network',
-            name=f'telegram-bot-manager-runner-{bot_id}',
+            name=container_name,
             volumes={
-                'telegram_bot_manager_djangoproject': {
+                'telegram-bot-manager_djangoproject': {
                     'bind': '/opt/telegramBotManager/server',
                     'mode': 'ro',
                 },
@@ -51,8 +54,9 @@ def bot_run(request, bot_id):
 def bot_status(request, bot_id):
     import docker
     client = docker.from_env()
+    container_name = cotainer_botRunner % bot_id
     try:
-        bot_runner = client.containers.get(f'telegram-bot-manager-runner-{bot_id}')
+        bot_runner = client.containers.get(container_name)
         data = {
             'status': bot_runner.status,
             'logs': str(bot_runner.logs(timestamps=False).decode()),
@@ -72,8 +76,9 @@ def bot_status(request, bot_id):
 def bot_stop(request, bot_id):
     import docker
     client = docker.from_env()
+    container_name = cotainer_botRunner % bot_id
     try:
-        bot_runner = client.containers.get(f'telegram-bot-manager-runner-{bot_id}')
+        bot_runner = client.containers.get(container_name)
         bot_runner.stop()
         return JsonResponse(status=200, data={})
     except docker.errors.ContainerError:

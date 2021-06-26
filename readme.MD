@@ -50,7 +50,7 @@ The objective of this project is to create an open source system for the managem
 
     ```bash
         docker exec -it telegram-bot-db psql --user postgres botmanager
-    ``` 
+    ```
     6.2
       After copy developers/insert.sql to postgres shell
 

@@ -1,6 +1,5 @@
 Django
+jinja2
 psycopg2
 python-telegram-bot
 requests
-jinja2
-

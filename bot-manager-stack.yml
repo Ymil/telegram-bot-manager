@@ -9,8 +9,12 @@ services:
     restart: always
     ports:
       - 3000:3000
+    volumes:
+      - reactproject:/usr/src/app
     networks:
       - net
+    depends_on:
+      - server
 
   server:
     container_name: telegram-bot-server
@@ -25,6 +29,8 @@ services:
       - 8000:8000
     networks:
       - net
+    depends_on:
+      - db
 
   db:
     container_name: telegram-bot-db
@@ -42,7 +48,7 @@ services:
 networks:
   net:
     name: telegram-bot-manager-network
-    
+
 volumes:
   postgres:
     driver: local
@@ -56,3 +62,9 @@ volumes:
       type: 'none'
       o: 'bind'
       device: 'server'
+  reactproject:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: 'client'

@@ -23,8 +23,11 @@ class UserViewSet(viewsets.ModelViewSet):
 def users_list(request):
     bot_id = request.POST.get('bot_id')
     users = User.objects.filter(bot=bot_id)
-    response = 'User List\n'
+    response = '<table>'
+    response += '<tr><th>ID</th><th>First Name</th>'
+    response += '<th>Last Name</th><th>Profile<th></tr>'
     for user in users:
-        response += f'\t{user.pk} {user.first_name} '
-        response += '{user.last_name} {user.profile.name}\n'
+        response += f'<tr><td>{user.pk}</td><td>{user.first_name}</td><td>'
+        response += f'{user.last_name}</td><td>{user.profile.name}</td></tr>'
+    response += '</table>'
     return JsonResponse(data={'data': response})

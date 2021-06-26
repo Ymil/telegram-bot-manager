@@ -2,54 +2,34 @@ import React from "react";
 import ReactDOM from "react-dom";
 import './styles.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import { url_end_point } from './configs.js'
 
 
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
-import { Bot } from './bot.js'
+import { Bot_manager } from './bot_manager.js'
 
 export default function App() {
-    let navBar = <ul></ul>;
-    console.log(window.location.pathname);
-    if (window.location.pathname == "/"){
-        navBar = 
-            <ul class="navbar-nav justify-content-center">
-                <li class="nav-item active">
-                <Link to="/" class="nav-link">Home</Link>
-                </li>
-                <li class="nav-item active">
-                <Link to="/about" class="nav-link">About</Link>
-                </li>
-                <li class="nav-item active">
-                <Link to="/users" class="nav-link">Users</Link>
-                </li>
-            </ul>
-        ;
-        console.log(window.location.pathname);
-    }
+
   return (
     <Router>
       <div>
-        <nav class="navbar navbar-expand-lg  navbar-dark  bg-primary">            
+        <nav class="navbar navbar-expand-lg  navbar-dark  bg-primary">
             <a class="navbar-brand">Telegram bot manager</a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <navBar />
-            
+
             </div>
         </nav>
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/bot/:bot_id" component={Bot} />            
+          <Route path="/bot/:bot_id" component={Bot_manager} />
           <Route path="/">
             <Bots />
           </Route>
@@ -61,7 +41,6 @@ export default function App() {
 
 
 class Bots extends React.Component{
-    
     constructor(props){
         super(props);
         this.state = {
@@ -69,22 +48,22 @@ class Bots extends React.Component{
             isLoaded: false,
             data: {}
         }
-        
+
     }
 
-    
-    ingresar = (id) => {                 
+
+    ingresar = (id) => {
         window.location.href = "/bot/"+id;
     }
 
     fetchBots(){
-        fetch("http://localhost:8000/api/bots/")
+        fetch(url_end_point+"/bots/")
           .then(res => res.json())
           .then(
             (result) => {
                 const newState = JSON.parse(JSON.stringify(result));
                 for( let i = 0; i < result.length; i++){
-                    fetch("http://localhost:8000/api/bot/status/"+result[i].pk+"/")
+                    fetch(url_end_point+"/bot/status/"+result[i].pk+"/")
                     .then(res => res.json())
                     .then(
 
@@ -97,16 +76,16 @@ class Bots extends React.Component{
                               items: newState
                             });
                         }
-                    ); 
+                    );
                 }
               this.setState({
                   isLoaded: true,
                 items: newState
               });
-              //this.fetchBotsStatus(); 
+              //this.fetchBotsStatus();
               console.log(this.state.items);
             },
-            // Nota: es importante manejar errores aquí y no en 
+            // Nota: es importante manejar errores aquí y no en
             // un bloque catch() para que no interceptemos errores
             // de errores reales en los componentes.
             (error) => {
@@ -122,15 +101,15 @@ class Bots extends React.Component{
     fetchBotsStatus(){
         const newState = JSON.parse(JSON.stringify(this.state));
         console.log(this.state);
-        for (let i = 0; i < this.state.items.length; i++) {  
+        for (let i = 0; i < this.state.items.length; i++) {
             console.log(this.state.items[i].pk);
-            fetch("http://localhost:8000/api/bot/status/"+this.state.items[i].pk+"/")
+            fetch(url_end_point+"/bot/status/"+this.state.items[i].pk+"/")
             .then(res => res.json())
             .then(
                 (result) => {
                     newState.items[i].status = result.status;
                 }
-            );          
+            );
             }
         console.log(newState);
         newState.isLoaded = true;
@@ -156,8 +135,8 @@ class Bots extends React.Component{
                         <th>Status</th>
                         <th></th>
                     </tr>
-                    
-                  {items.map(items => 
+
+                  {items.map(items =>
                     <tr>
                         <td>{items.pk}</td>
                         <td>{items.name}</td>
@@ -170,21 +149,9 @@ class Bots extends React.Component{
             }
           }
         }
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
-}
 
 
 ReactDOM.render(
     <App />,
     document.getElementById('root')
   );
-  
