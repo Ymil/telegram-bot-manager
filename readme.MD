@@ -1,6 +1,9 @@
+
 # Telegram bot manager
 ## Objetive
 The objective of this project is to create an open source system for the management of telegram bots with the ability to respond to handlers through http apis.
+## Architecture
+![Architecture](https://user-images.githubusercontent.com/10056152/123499990-103aa900-d611-11eb-870f-bea3ef7b2c21.png)
 ## Screenshots
 ![Captura12312](https://user-images.githubusercontent.com/10056152/111084593-e3df9e80-84f1-11eb-92d9-2b22be943788.PNG)
 
