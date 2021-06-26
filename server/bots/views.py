@@ -1,10 +1,12 @@
+import os
+
 from bots.models import Bot
 from bots.serializers import BotSerializer
 from django.http import JsonResponse
 from rest_framework import viewsets
-import os
 
 cotainer_botRunner = 'telegram-bot-runner-%d'
+
 
 class BotViewSet(viewsets.ModelViewSet):
     """
@@ -30,7 +32,7 @@ def bot_run(request, bot_id):
     try:
         client.containers.run(
             detach=True,
-            image=os.environ["BOTRUNNER_IMAGE"],
+            image=os.environ['BOTRUNNER_IMAGE'],
             network='telegram-bot-manager-network',
             name=container_name,
             volumes={

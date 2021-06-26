@@ -48,7 +48,7 @@ services:
 networks:
   net:
     name: telegram-bot-manager-network
-    
+
 volumes:
   postgres:
     driver: local

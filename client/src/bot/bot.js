@@ -9,13 +9,13 @@ export class Bot extends React.Component{
         };
         this.bot_id = props.bot_id;
     }
-    
+
 
     getStatus(){
         fetch(url_end_point+"/bot/status/"+this.bot_id+"/")
         .then(res => res.json())
         .then(
-            (result) => {                
+            (result) => {
                 this.setState({
                     bot: result
                 });
@@ -31,7 +31,7 @@ export class Bot extends React.Component{
     }
 
 
-    change_status = (status) => {                 
+    change_status = (status) => {
         if(status == "start"){
             fetch(url_end_point+"/bot/run/"+this.bot_id+"/");
         }else if(status == "stop"){
@@ -39,7 +39,7 @@ export class Bot extends React.Component{
         }
     }
 
-    render(){        
+    render(){
         let botManagerButton;
         if(this.state.bot.status == "running"){
             botManagerButton = <button class="btn btn-warning" onClick={() => this.change_status("stop")}>Stop</button>

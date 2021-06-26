@@ -17,12 +17,12 @@ export class Handlers_box extends React.Component{
         this.bot_id = props.bot_id;
     }
 
-    
+
     getHandler(){
         fetch(url_end_point+"/handlers/?bot="+this.bot_id+"")
         .then(res => res.json())
         .then(
-            (result) => {                
+            (result) => {
                 this.setState({
                     handlers: result,
                     handler: {
@@ -36,28 +36,28 @@ export class Handlers_box extends React.Component{
         );
     }
 
-    componentDidMount() {        
+    componentDidMount() {
         this.getHandler();
     }
 
     handler_enabled_change = (handler_idx, handler_id, e) => {
         console.log(e.target.checked);
         fetch(url_end_point+"/handlers/"+handler_id+"/", {
-            method: "PUT", 
-            body:JSON.stringify({"enabled": e.target.checked}), 
+            method: "PUT",
+            body:JSON.stringify({"enabled": e.target.checked}),
             headers: {
                 'Content-Type': 'application/json'
             }
         });
         let handlers = this.state.handlers;
-        handlers[handler_idx].enabled = e.target.checked; 
+        handlers[handler_idx].enabled = e.target.checked;
         this.setState({
             handlers: handlers
         });
     }
 
-    handler_form = (index) => {        
-        
+    handler_form = (index) => {
+
         if(index == "new"){
             let handler_new = this.state.handler_new;
             handler_new.form = !handler_new.form;
@@ -72,7 +72,7 @@ export class Handlers_box extends React.Component{
                 show_form: handlers[index].form
             });
         }
-        return 
+        return
 
     }
     handler_remove = (index) => {
@@ -82,7 +82,7 @@ export class Handlers_box extends React.Component{
         });
 
     }
-    refresh_view = () => {        
+    refresh_view = () => {
         this.getHandler();
     }
     render(){
@@ -94,15 +94,15 @@ export class Handlers_box extends React.Component{
                 <table class="table">
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>                                    
-                        <th>Command</th>                                    
+                        <th>Name</th>
+                        <th>Command</th>
                         <th>Response</th>
                         <td class='tools'>
                             <button class="btn btn-secondary">
                                 <PlusCircle size={20} onClick={() => this.handler_form("new")}/>
                             </button>
                             <Handler_form bot={this.bot_id} handler={this.state.handler_new} show={this.state.handler_new.form} onHide={this.handler_form} index={"new"} updateView={() => this.refresh_view()}/>
-                        </td> 
+                        </td>
                     </tr>
                     {handlers.map((handler, index) => {
                         let EnableButton;
@@ -113,10 +113,10 @@ export class Handlers_box extends React.Component{
                         }
                         return <tr>
                                 <td>{handler.pk}</td>
-                                <td>{handler.name}</td>                                            
+                                <td>{handler.name}</td>
                                 <td>{handler.command}</td>
                                 <td>{EnableButton}</td>
-                                <td class='tools'>                                 
+                                <td class='tools'>
                                     <button class="btn btn-secondary">
                                         <Gear size={20} onClick={() => this.handler_form(index)}/>
                                     </button>
@@ -124,13 +124,13 @@ export class Handlers_box extends React.Component{
                                         <Trash size={20} onClick={() => this.handler_remove(index)}/>
                                     </button>
                                 </td>
-                                <Handler_form handler={handler} show={handler.form} onHide={this.handler_form} index={index} updateView={() => this.refresh_view()}/>                                
+                                <Handler_form handler={handler} show={handler.form} onHide={this.handler_form} index={index} updateView={() => this.refresh_view()}/>
                             </tr>
                     })}
                 </table>
                 <Handler_remove handler={this.state.handler_active} onHide={this.handler_remove} show={this.state.show_remove} updateView={() => this.refresh_view()}/>
             </div>
-            
+
         )
     }
 }

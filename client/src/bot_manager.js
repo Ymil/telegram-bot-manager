@@ -7,10 +7,10 @@ import { Bot } from "./bot/bot.js"
 
 export class Bot_manager extends React.Component{
     constructor(props){
-        super(props);      
+        super(props);
         this.bot_id = this.props.match.params.bot_id;
-        
-    }    
+
+    }
 
     render(){
         console.log(this.state);
@@ -20,12 +20,12 @@ export class Bot_manager extends React.Component{
                 <div class="container-fluid" id="main">
                     <div class="row">
                         <Handlers_box bot_id={this.bot_id} />
-                        <Users bot_id={this.bot_id} />                        
+                        <Users bot_id={this.bot_id} />
                     </div>
                     <div class="row">
                         <Bot bot_id={this.bot_id} />
                     </div>
-                    
+
                 </div>
             </div>
         )

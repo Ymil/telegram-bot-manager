@@ -1,7 +1,7 @@
 ## Status of development
 Bot managment
 * Create new bots for web interface :x:
-* Start or stop bot 
+* Start or stop bot
     * for web interface :heavy_check_mark:
     * for telegram :x:
 
@@ -9,7 +9,7 @@ Handlers Managment
 * Create new handlers
     * for web interface :heavy_check_mark:
     * for telegram :x:
-* Edit handlers 
+* Edit handlers
     * for web interface :heavy_check_mark:
     * for telegram :x:
 * Enabled or disabled

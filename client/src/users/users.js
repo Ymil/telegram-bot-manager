@@ -8,13 +8,13 @@ export class Users extends React.Component{
             users: []
         };
         this.bot_id = props.bot_id;
-    }   
+    }
 
     getUsers(){
         fetch("http://localhost:8000/api/users/?bot="+this.bot_id+"")
         .then(res => res.json())
         .then(
-            (result) => {                
+            (result) => {
                 this.setState({
                     users: result
                 });
@@ -25,14 +25,14 @@ export class Users extends React.Component{
     user_enabled_response_change = (user_idx, user_id, e) => {
         console.log(e.target.checked);
         fetch("http://localhost:8000/api/users/"+user_id+"/", {
-            method: "PUT", 
-            body:JSON.stringify({"response_enabled": e.target.checked}), 
+            method: "PUT",
+            body:JSON.stringify({"response_enabled": e.target.checked}),
             headers: {
                 'Content-Type': 'application/json'
             }
         });
         let users = this.state.users;
-        users[user_idx].response_enabled = e.target.checked; 
+        users[user_idx].response_enabled = e.target.checked;
         this.setState({
             users: users
         });
@@ -81,11 +81,11 @@ export class Users extends React.Component{
                                 <button class="btn btn-secondary">
                                     <Trash size={20} />
                                 </button>
-                            </td>                                      
+                            </td>
                         </tr>
-                    }                                   
+                    }
                     )}
-                    
+
                 </table>
             </div>
         );

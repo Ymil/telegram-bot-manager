@@ -19,7 +19,7 @@ function Payload_Render(props){
     </div>
     )
   }else if(props.payload.type == "http"){
-       
+
     return (
     <div>
       <Form.Group>
@@ -30,11 +30,11 @@ function Payload_Render(props){
         </Form.Control>
       </Form.Group>
       <Form.Group>
-        <Form.Label>Payload method</Form.Label>        
+        <Form.Label>Payload method</Form.Label>
         <Form.Control as="select" value={props.payload.method} onChange={(e) => props.change(e)} name='payload_method'>
           <option value='get'>GET</option>
           <option value='post'>POST</option>
-        </Form.Control>        
+        </Form.Control>
       </Form.Group>
       <Form.Group>
         <Form.Label>Payload URL</Form.Label>
@@ -47,7 +47,7 @@ function Payload_Render(props){
   }
 }
 export class Handler_form extends React.Component{
-    
+
     constructor(props){
         super(props);
         this.state = {
@@ -57,11 +57,11 @@ export class Handler_form extends React.Component{
         this.handler = props.handler;
     }
 
-   
-    
+
+
     change = (event) => {
       let input_name = event.target.name;
-      let input_value = event.target.value;       
+      let input_value = event.target.value;
       if(input_name == "payload_type"){
         this.handler.payload.type = input_value;
       }else if(input_name == "payload_content"){
@@ -73,18 +73,18 @@ export class Handler_form extends React.Component{
       }else{
         this.handler[input_name] = input_value;
       }
-      
+
       this.setState({
           handler: this.handler
-      }); 
+      });
 
-     
+
     }
 
-    
+
     save = (event) => {
       let target = event.target;
-      let response = {        
+      let response = {
         name: target.name.value,
         command: target.command.value,
         payload:{
@@ -107,8 +107,8 @@ export class Handler_form extends React.Component{
         URL += this.state.handler.pk+"/"
       }
       fetch(URL, {
-            method: method, 
-            body:JSON.stringify(response), 
+            method: method,
+            body:JSON.stringify(response),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -118,22 +118,22 @@ export class Handler_form extends React.Component{
               if(response.status < 300){
                 this.props.onHide(this.props.index);
                 this.props.updateView()
-                
+
               }else{
                 this.setState({
                     error: json.description
                 } );
-                
+
               }
           })
       });
 
-        
+
     }
 
-    render(){    
+    render(){
       let handler = this.state.handler;
-      
+
       if(handler == null){
         return <p></p>
       }else{
@@ -143,7 +143,7 @@ export class Handler_form extends React.Component{
               <Modal.Title>Handler #{ handler.pk }</Modal.Title>
             </Modal.Header>
             <Form onSubmit={(e) => this.save(e)}>
-              <Modal.Body>                
+              <Modal.Body>
                   <Form.Group>
                     <Form.Label>Name</Form.Label>
                     <Form.Control type="text" value={handler.name} onChange={(e) => this.change(e)} name='name' />
@@ -152,7 +152,7 @@ export class Handler_form extends React.Component{
                     <Form.Label>Command</Form.Label>
                     <Form.Control type="text" value={handler.command} onChange={(e) => this.change(e)} name='command'/>
                   </Form.Group>
-                  <Payload_Render payload={handler.payload} change={this.change} />                
+                  <Payload_Render payload={handler.payload} change={this.change} />
               </Modal.Body>
               <Modal.Body>
                 { this.state.error.length > 0 ? <Alert variant="danger">{this.state.error}</Alert> : null }
@@ -160,12 +160,11 @@ export class Handler_form extends React.Component{
               <Modal.Footer>
                 <Button variant="secondary" onClick={() => this.props.onHide(this.props.index)}>Close</Button>
                 <Button variant="primary" type="submit">Save changes</Button>
-              </Modal.Footer>              
+              </Modal.Footer>
             </Form>
           </Modal>
         )
       }
-      
+
     }
 }
-
