@@ -8,8 +8,7 @@ import { url_end_point } from './configs.js'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 import { Bot_manager } from './bot_manager.js'

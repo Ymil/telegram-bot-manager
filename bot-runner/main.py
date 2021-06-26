@@ -55,7 +55,10 @@ MSG_USER_REGISTER = "You are already registered"
 #logging.getLogger("telegramBot")
 logging.basicConfig(level=logging.DEBUG)
 telegram_logger = logging.getLogger("telegram")
-telegram_logger.setLevel(logging.CRITICAL)
+telegram_logger.setLevel(logging.FATAL)
+
+app_logger = logging.getLogger("botRunner")
+app_logger.setLevel(logging.DEBUG)
 
 
 bot = Bot.objects.get(pk=BOT_ID)
@@ -155,7 +158,8 @@ def commandsHandler(update, context):
                             msg = dp.get_response()
                             t = TextProccesor(msg, message, context)
                             t.execute()
-                    except:
+                    except Exception as e:
+                        app_logger.debug(e)
                         t = TextProccesor(MSG_FAILED_COMMAND % command, message, context)
                         t.execute()
             else:

@@ -2,9 +2,9 @@ FROM python:3
 
 WORKDIR /usr/src/app
 
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 COPY . .
-RUN pip install --no-cache-dir -r requirements.txt
-
 ENV DJANGOPROJECT=/opt/telegramBotManager/server
 ENV POSTGRES_HOST=telegram-bot-db
 

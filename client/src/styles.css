@@ -3,7 +3,7 @@
 }
 
 #logsBox{
-    font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace;
+    font-family: "Source Sans Pro", "Helvetica", sans-serif;
     white-space: pre-line;
     font-size: 0.7em;
     max-height: 500px;
